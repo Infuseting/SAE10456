@@ -1,0 +1,214 @@
+<!-- Pour une question de temps il n'y a pas mal de données incoherentes mais si vous voulez un exemple concret prenez Renault au Havre (Pour le cas du plus d'informations) -->
+
+
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link rel="stylesheet" href="assets/css/main.css">
+    <title>Handi'cap - ${file.name}</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" id="brand" href="#">Handi'cap</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container-fluid ">
+        <div class="content vh-100" style="overflow-y: auto;">
+            <div class="row justify-content-center align-items-center vh-100 px-5 mx-5  " id="last-section">
+                <div class="col-md-6 d-flex flex-column h-75">
+                    <div class="search-bar mt-3 flex-shrink-0">
+                        <input id="search" type="text" class="form-control"
+                            placeholder="Region, Départements, Ville, Lieu">
+                    </div>
+                    <div id="map" class="map flex-grow-1 mt-3">
+
+                    </div>
+                </div>
+                <div class="col-md-6 d-flex align-items-center justify-content-center h-75">
+
+                    <div class="content-box mt-3 p-3 border h-100 position-relative">
+                        <div id="select-content"
+                            class="d-flex flex-column justify-content-center align-items-center text-center ">
+                            <h1>Veuillez sélectionner un élément</h1>
+                            <p>À l'aide de la barre de recherche, vous pouvez indiquer une entreprise, un département, une
+                                ville pour obtenir des statistiques.</p>
+                        </div>
+                        <div id="content" class="content-box hidden">
+                            <div>
+
+                                <h2>${Content.Name}</h2>
+                                <p>${Content.Desc}</p>
+                                <div id="info" class="graph px-5">
+                                </div>
+                            </div>
+
+                            <div class="link d-flex justify-content-end align-items-end">
+
+                                <a href="https://example.com" class="btn btn-primary ">Plus d'informations</a>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="scroll-arrow text-center mt-3" style="position: absolute; bottom: 10px; width: 100%;">
+                <a href="#last-section" class="btn btn-primary" onclick="scrollToNextSection(event)">
+                    <svg width="30px" height="30px" viewBox="0 0 1024 1024" class="icon" version="1.1"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M989.44 339.84a36.8 36.8 0 0 0-6.72-10.56 32 32 0 0 0-45.44 0 36.8 36.8 0 0 0-6.72 10.56 26.56 26.56 0 0 0-2.56 12.16 32 32 0 1 0 64 0 32 32 0 0 0-2.56-12.16zM844.16 402.24l-96 75.52a32 32 0 0 0 39.68 50.24l96-75.52a32 32 0 0 0-39.68-50.24zM652.16 553.28L512 663.36 83.84 326.72a32 32 0 0 0-39.68 50.24l448 352a32 32 0 0 0 39.68 0l160-125.76a32 32 0 0 0-39.68-50.24z"
+                             />
+                    </svg>
+                </a>
+            </div>
+        </div>
+        <div class="content" style="height: 90vh; overflow-y: auto">
+
+            <div class="scroll-arrow text-center mt-5 pt-5" style="position: relative; top: 80px; width: 100%;">
+                <a href="#next-section" class="btn btn-primary" onclick="scrollToLastSection(event)">
+                    <svg width="30px" height="30px" viewBox="0 0 1024 1024" class="icon" version="1.1"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M34.56 684.16a36.8 36.8 0 0 1 6.72 10.56 32 32 0 0 1-45.44 0 36.8 36.8 0 0 1-6.72-10.56 26.56 26.56 0 0 1-2.56-12.16 32 32 0 1 1 64 0 32 32 0 0 1-2.56 12.16zM179.84 621.76l96-75.52a32 32 0 0 1 39.68 50.24l-96 75.52a32 32 0 0 1-39.68-50.24zM371.84 470.72L512 360.64 940.16 697.28a32 32 0 0 1 39.68-50.24l-448-352a32 32 0 0 1-39.68 0l-160 125.76a32 32 0 0 1 39.68 50.24z"
+                             />
+                    </svg>
+                </a>
+            </div>
+            <div class="row vh-50 px-5  mx-5 d-flex justify-content-center align-items-center mt-5 pt-5">
+                <div class="col-md-8" id="next-section">
+                    <div onclick="toggleDropdownContent(this)" class="dropdown-content border px-3 py-3 mb-3">
+                        <h3>Quelles sont les aides auxquelles j'ai droit en tant qu'entreprise ?</h3>
+                        <p class="hidden">En tant qu'entreprise, vous pouvez bénéficier de diverses aides financières et
+                            fiscales pour favoriser l'emploi des personnes en situation de handicap. Ces aides peuvent
+                            inclure des subventions pour l'adaptation des postes de travail, des exonérations de charges
+                            sociales, et des crédits d'impôt.</p>
+                        <a href="Aides_envers_entreprises.html"
+                            class=" hidden text-end pe-5 w-100 position-relative d-block">En savoir plus</a>
+                    </div>
+                    <div onclick="toggleDropdownContent(this)" class="dropdown-content border px-3 py-3 mb-3">
+                        <h3>Quelles sont les aides auxquelles j'ai droit en tant que particulier ?</h3>
+                        <p class="hidden">
+                            En tant que particulier, vous pouvez bénéficier de plusieurs aides pour compenser votre
+                            handicap et améliorer votre qualité de vie. Ces aides peuvent inclure des allocations
+                            financières, des services d'accompagnement, des aides techniques et des aménagements de
+                            logement.
+                        </p>
+                        <a href="Aides_envers_Particuliers.html"
+                            class=" hidden text-end pe-5 w-100 position-relative d-block">En savoir plus</a>
+                    </div>
+                    <div onclick="toggleDropdownContent(this)" class="dropdown-content border px-3 py-3 mb-3">
+                        <h3>Quelles sont les législations en France en rapport avec le handicap ?</h3>
+                        <p class="hidden">
+                            La législation française en matière de handicap vise à garantir l'égalité des droits et des
+                            chances, la participation et la citoyenneté des personnes handicapées. Elle inclut des lois
+                            sur l'accessibilité des bâtiments, des transports et des services, ainsi que des mesures
+                            pour favoriser l'emploi des personnes en situation de handicap. La loi du 11 février 2005
+                            est une référence majeure, établissant des obligations pour les employeurs, les
+                            établissements recevant du public et les collectivités territoriales.
+                        </p>
+                        <a href="legislation.html" class=" hidden text-end pe-5 w-100 position-relative d-block">En
+                            savoir plus</a>
+                    </div>
+                    <div onclick="toggleDropdownContent(this)" class="dropdown-content border px-3 py-3 mb-3">
+                        <h3>Comment la France catégorise les handicaps ?</h3>
+                        <p class="hidden">
+                            La France catégorise les handicaps en plusieurs types, notamment les handicaps moteurs,
+                            sensoriels, mentaux, psychiques et cognitifs. Chaque type de handicap peut nécessiter des
+                            adaptations spécifiques pour permettre aux personnes concernées de participer pleinement à
+                            la vie sociale, professionnelle et culturelle. Les politiques publiques et les dispositifs
+                            d'accompagnement sont conçus pour répondre aux besoins particuliers de chaque catégorie de
+                            handicap.
+                        </p>
+                        <a href="Types_Handicap.html" class=" hidden text-end pe-5 w-100 position-relative d-block">En
+                            savoir plus</a>
+                    </div>
+                    <div onclick="toggleDropdownContent(this)" class="dropdown-content border px-3 py-3 mb-3">
+                        <h3>Quels sont les coûts réels du handicap en Normandie ?</h3>
+                        <p class="hidden">
+                            Le coût réel du handicap en Normandie englobe à la fois les dépenses directes et indirectes.
+                            Les dépenses directes incluent les allocations et aides financières versées aux personnes en
+                            situation de handicap, les coûts des soins médicaux et des services d'accompagnement. Les
+                            dépenses indirectes comprennent la perte de productivité, les aménagements nécessaires dans
+                            les lieux de travail et les infrastructures publiques, ainsi que les coûts sociaux liés à
+                            l'exclusion et à la discrimination. Ces coûts sont supportés par l'État, les collectivités
+                            locales, les entreprises et les familles, et représentent un enjeu majeur pour les
+                            politiques publiques.
+                        </p>
+                        <a href="COUT_Budgetaire_Etat.html"
+                            class=" hidden text-end pe-5 w-100 position-relative d-block">En savoir plus</a>
+                    </div>
+                    <div onclick="toggleDropdownContent(this)" class="dropdown-content border px-3 py-3 mb-3">
+                        <h3>Quelle est la situation du handicap en France ?</h3>
+                        <p class="hidden">
+                            La situation du handicap en France est complexe et multifacette. Elle implique des défis en
+                            matière d'accessibilité, d'inclusion sociale, d'éducation et d'emploi pour les personnes en
+                            situation de handicap. Malgré les progrès réalisés grâce à des lois comme celle du 11
+                            février 2005, de nombreuses personnes handicapées continuent de faire face à des obstacles
+                            importants dans leur vie quotidienne. Les efforts pour améliorer l'accessibilité des
+                            infrastructures publiques, promouvoir l'emploi des personnes handicapées et sensibiliser le
+                            public aux questions de handicap sont essentiels pour créer une société plus inclusive et
+                            équitable.
+                        </p>
+                        <a href="Handicap_en_France.html"
+                            class=" hidden text-end pe-5 w-100 position-relative d-block">En savoir plus</a>
+                    </div>
+                    <div onclick="toggleDropdownContent(this)" class="dropdown-content border px-3 pt-3 mb-3">
+                        <h3>Quelle association et/ou entreprise contacter ?</h3>
+                        <p class="hidden">
+                            Pour obtenir des informations et des conseils sur le handicap, vous pouvez contacter des
+                            associations et des entreprises spécialisées dans l'accompagnement des personnes en situation
+                            de handicap. Ces organisations peuvent vous orienter vers des services d'aide et de soutien,
+                            vous informer sur vos droits et les dispositifs d'accompagnement disponibles, et vous mettre
+                            en relation avec d'autres personnes concernées par le handicap. N'hésitez pas à les
+                            contacter pour obtenir de l'aide et des conseils adaptés à votre situation.
+                        </p>
+                        <a href="association_entreprise_handicap.html" class=" hidden text-end pe-5 w-100 position-relative d-block">En savoir plus</a>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <footer class=" vw-100">
+        <div class="container-fluid text-white text-center p-2">
+            <p>Handi'cap - Page réalisée par Nom Prenom</p>
+            <p>Site realisée par Nom Prenom, Nom Prenom, Nom Prenom, Nom Prenom</p>
+        </div>
+    </footer>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/map.js"></script>
+    <script src="assets/js/index.js"></script>
+</body>
+
+</html>
+
+
+<!-- Nom Prenom -->
