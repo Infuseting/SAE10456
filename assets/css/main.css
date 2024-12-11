@@ -190,3 +190,31 @@ a{
 a:hover{
     color: var(--primary-color-hover);
 }
+
+.btn-top{
+    position: relative;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.btn-bot{
+    position: absolute;
+    bottom:80px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.vh-90{
+    height: 90vh;
+}
+
+.overflowy{
+    overflow-y: auto;
+}
+.bot-10{
+    bottom: 10px;
+}
+.top-80{
+    top: 80px;
+}
